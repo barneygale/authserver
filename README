@@ -1,8 +1,10 @@
-This is a simple minecraft authentication server. It can be used by server admins to build a sign-up process that
-requires a valid minecraft account, or to tie accounts to existing website users.
+This is a simple minecraft authentication server. It can be used by a server
+admin to build a sign-up process that requires a valid minecraft account, or
+to tie accounts to existing website users.
 
-To use, extend authserver.AuthServer, adding your own logic to handle_auth. You can return either a string to
-kick the user with, or a twisted.defer.Deferred which will fire with the kick message. See demo.py for an example.
+To use, extend authserver.AuthServer, adding your own logic to handle_auth. You 
+can return either a string to kick the user with, or a twisted.defer.Deferred 
+which will fire with the kick message. See demo.py for an example.
 
 Requirements:
  * python 2.7
