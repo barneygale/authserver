@@ -5,6 +5,7 @@ from authserver import AuthServer
 HOST = ""
 PORT = 25565
 MOTD = u"§eExample Auth Server"
+FAVICON = None # or a path to a 64x64 .png
 
 class ExampleAuthServer(AuthServer):
     def handle_auth(self, client_addr, server_addr, username, authed):
@@ -23,6 +24,6 @@ class ExampleAuthServer(AuthServer):
 
 
 if __name__ == "__main__":
-    server = ExampleAuthServer(MOTD)
+    server = ExampleAuthServer(MOTD, FAVICON)
     server.listen(HOST, PORT)
     server.run()

@@ -8,5 +8,5 @@ which will fire with the kick message. See demo.py for an example.
 
 Requirements:
  * python 2.7
- * python-m2crypto
+ * pycrypto
  * twisted
