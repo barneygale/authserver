@@ -59,7 +59,7 @@ class Buffer(object):
     def unpack_varint(self):
         d = 0
         for i in range(5):
-            b = self.unpack('B')
+            b = self.unpack("B")
             d |= (b & 0x7F) << 7*i
             if not b & 0x80:
                 break
@@ -71,7 +71,7 @@ class Buffer(object):
 
     @classmethod
     def pack_string(cls, data):
-        data = data.encode('utf-8')
+        data = data.encode("utf-8")
         return cls.pack_varint(len(data)) + data
 
     @classmethod
@@ -84,7 +84,7 @@ class Buffer(object):
         while True:
             b = d & 0x7F
             d >>= 7
-            o += cls.pack('B', b | (0x80 if d > 0 else 0))
+            o += cls.pack("B", b | (0x80 if d > 0 else 0))
             if d == 0:
                 break
         return o
@@ -123,7 +123,7 @@ class AuthTools:
     def decrypt(cls, keypair, data):
         data = keypair.decrypt(data)
         #remove pkcs1
-        pos = data.find('\x00')
+        pos = data.find("\x00")
         if pos > 0:
             data = data[pos+1:]
 
@@ -185,7 +185,7 @@ class AuthProtocol(protocol.Protocol):
                 if ident == 0: #recv handshake
                     self.protocol_version = buff.unpack_varint()
                     self.server_addr = buff.unpack_string()
-                    self.server_port = buff.unpack('H')
+                    self.server_port = buff.unpack("H")
                     self.protocol_mode = buff.unpack_varint()
                 else:
                     raise ProtocolError.mode_mismatch(ident, self.protocol_mode)
@@ -195,9 +195,9 @@ class AuthProtocol(protocol.Protocol):
                     #send status response
                     self.send_packet(0, Buffer.pack_string(json.dumps(self.factory.get_status(self.protocol_version))))
                 elif ident == 1: #recv ping
-                    time = buff.unpack('Q')
+                    time = buff.unpack("Q")
                     #send ping
-                    self.send_packet(1, Buffer.pack('Q', time))
+                    self.send_packet(1, Buffer.pack("Q", time))
                     self.close()
                 else:
                     raise ProtocolError.mode_mismatch(ident, self.protocol_mode)
@@ -244,7 +244,7 @@ class AuthProtocol(protocol.Protocol):
                         if e.value.status == "204":
                             auth_worked(False)
                         else:
-                            self.kick("Couldn't contact session server")
+                            self.kick("Failed to contact session server")
 
                     #do auth!
                     digest = AuthTools.make_digest(self.server_id, shared_secret, self.factory.public_key)
@@ -277,7 +277,7 @@ class AuthProtocol(protocol.Protocol):
         self.transport.loseConnection()
 
     def kick(self, message):
-        self.send_packet(0, Buffer.pack_string(json.dumps({'text': message})))
+        self.send_packet(0, Buffer.pack_string(json.dumps({"text": message})))
         self.close()
 
 
@@ -298,7 +298,7 @@ class AuthServer(protocol.Factory):
 
         if favicon:
             with open(favicon, "rb") as f:
-                self.status['favicon'] = "data:image/png;base64," + base64.encodestring(f.read())
+                self.status["favicon"] = "data:image/png;base64," + base64.encodestring(f.read())
 
     def listen(self, interface, port, backlog=50):
         reactor.listenTCP(port, self, backlog=backlog, interface=interface)
@@ -311,7 +311,7 @@ class AuthServer(protocol.Factory):
 
     def get_status(self, protocol_version):
         d = dict(self.status)
-        d['version']['protocol'] = protocol_version
+        d["version"]["protocol"] = protocol_version
         return d
 
     def handle_auth(self, client_addr, server_addr, username, authed):
