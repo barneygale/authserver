@@ -179,7 +179,7 @@ class AuthProtocol(protocol.Protocol):
         buff = Buffer()
         buff.add(data)
         try:
-            ident = buff.unpack("B")
+            ident = buff.unpack_varint()
 
             if self.protocol_mode == PROTOCOL_INIT:
                 if ident == 0: #recv handshake
