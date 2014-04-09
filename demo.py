@@ -8,7 +8,7 @@ MOTD = u"§eExample Auth Server"
 FAVICON = None # or a path to a 64x64 .png
 
 class ExampleAuthServer(AuthServer):
-    def handle_auth(self, client_addr, server_addr, username, authed):
+    def handle_auth(self, client_addr, server_addr, username, uuid, authed):
         print "%s/%s logged in" % (username, client_addr)
 
         if authed:

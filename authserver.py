@@ -229,16 +229,18 @@ class AuthProtocol(protocol.Protocol):
                     self.cipher = AuthTools.get_cipher(shared_secret)
 
                     #set up auth handlers
-                    def auth_worked(authed):
+                    def auth_worked(authed, uuid=None):
                         d = defer.maybeDeferred(self.factory.handle_auth,
                             self.client_addr,
                             self.server_addr,
                             self.username,
+                            uuid,
                             authed)
                         d.addCallback(self.kick)
 
-                    def auth_ok(data):
-                        auth_worked(True)
+                    def auth_ok(data_json):
+                        data = json.loads(data_json)
+                        auth_worked(True, uuid=data["id"])
 
                     def auth_err(e):
                         if e.value.status == "204":
