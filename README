@@ -1,3 +1,11 @@
+NOTICE: THIS SOFTWARE IS NOT MAINTAINED!
+
+authserver been superseded by quarry: http://github.com/barneygale/quarry
+
+authserver only supports 1.7 clients, whereas quarry supports 1.7 and 1.8.
+
+Original readme follows: ------------------------------------------------------
+
 This is a simple minecraft authentication server. It can be used by a server
 admin to build a sign-up process that requires a valid minecraft account, or
 to tie accounts to existing website users.
